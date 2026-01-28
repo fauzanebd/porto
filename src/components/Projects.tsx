@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { projects } from "../data/portfolio";
@@ -17,12 +18,12 @@ export const Projects = () => {
         gsap.fromTo(
           card,
           {
-            opacity: 0,
-            y: 60,
+            opacity: 1,
+            // y: 60,
           },
           {
             opacity: 1,
-            y: 0,
+            // y: 0,
             duration: 0.8,
             ease: "power2.out",
             scrollTrigger: {
@@ -40,6 +41,19 @@ export const Projects = () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
+
+  const getProjectTypeLabel = (type: string) => {
+    switch (type) {
+      case "public":
+        return null;
+      case "mobile":
+        return "Mobile App";
+      case "private":
+        return "Internal/Private";
+      default:
+        return null;
+    }
+  };
 
   return (
     <section
@@ -63,14 +77,13 @@ export const Projects = () => {
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   onError={(e) => {
-                    // Fallback if image doesn't exist
                     (e.target as HTMLImageElement).src =
                       'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-family="sans-serif" font-size="18"%3EProject Image%3C/text%3E%3C/svg%3E';
                   }}
                 />
-                {!project.link && (
+                {getProjectTypeLabel(project.type) && (
                   <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-2 rounded text-xs font-medium">
-                    Internal/Private
+                    {getProjectTypeLabel(project.type)}
                   </div>
                 )}
               </div>
@@ -91,16 +104,12 @@ export const Projects = () => {
                     </span>
                   ))}
                 </div>
-                {project.link && (
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-900 dark:text-gray-100 no-underline text-sm font-medium inline-flex items-center transition-transform duration-300 hover:translate-x-1"
-                  >
-                    View Project →
-                  </a>
-                )}
+                <Link
+                  to={`/project/${project.id}`}
+                  className="text-gray-900 dark:text-gray-100 text-sm font-medium inline-flex items-center transition-transform duration-300 hover:translate-x-1"
+                >
+                  Read More →
+                </Link>
               </div>
             </div>
           ))}

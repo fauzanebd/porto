@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { blogPosts } from "../data/portfolio";
@@ -16,13 +17,13 @@ export const Blog = () => {
         gsap.fromTo(
           card,
           {
-            opacity: 0,
-            y: 60,
+            opacity: 1,
+            // y: 60,
           },
           {
             opacity: 1,
-            y: 0,
-            duration: 0.8,
+            // y: 0,
+            duration: 0.2,
             ease: "power2.out",
             scrollTrigger: {
               trigger: card,
@@ -63,33 +64,44 @@ export const Blog = () => {
           {blogPosts.map((post) => (
             <article
               key={post.id}
-              className="blog-card bg-white dark:bg-gray-800 p-8 rounded-lg opacity-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-gray-900/50"
+              className="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden opacity-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-gray-900/50"
             >
-              <time className="text-sm text-secondary block mb-4">
-                {formatDate(post.date)}
-              </time>
-              <h3 className="text-2xl font-semibold mb-4 tracking-tight leading-tight">
-                {post.title}
-              </h3>
-              <p className="text-base leading-relaxed text-secondary mb-6">
-                {post.excerpt}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {post.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="text-sm text-secondary px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded"
-                  >
-                    {tag}
-                  </span>
-                ))}
+              {post.image && (
+                <div className="aspect-video overflow-hidden">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
+              )}
+              <div className="p-8">
+                <time className="text-sm text-secondary block mb-4">
+                  {formatDate(post.date)}
+                </time>
+                <h3 className="text-2xl font-semibold mb-4 tracking-tight leading-tight">
+                  {post.title}
+                </h3>
+                <p className="text-base leading-relaxed text-secondary mb-6">
+                  {post.excerpt}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {post.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="text-sm text-secondary px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <Link
+                  to={`/blog/${post.slug}`}
+                  className="text-gray-900 dark:text-gray-100 text-sm font-medium inline-flex items-center transition-transform duration-300 hover:translate-x-1"
+                >
+                  Read more →
+                </Link>
               </div>
-              <a
-                href={`/blog/${post.slug}`}
-                className="text-gray-900 dark:text-gray-100 no-underline text-sm font-medium inline-flex items-center transition-transform duration-300 hover:translate-x-1"
-              >
-                Read more →
-              </a>
             </article>
           ))}
         </div>

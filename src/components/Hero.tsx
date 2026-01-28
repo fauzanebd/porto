@@ -26,13 +26,14 @@ export const Hero = () => {
           "-=600",
         )
         .add(
-          heroRef.current.querySelector(".hero-description") as Element,
+          heroRef.current.querySelectorAll(".nav-button"),
           {
-            translateY: [40, 0],
+            translateY: [20, 0],
             opacity: [0, 1],
-            duration: 800,
+            delay: stagger(100),
+            duration: 600,
           },
-          "-=600",
+          "-=400",
         )
         .add(
           heroRef.current.querySelectorAll(".social-link"),
@@ -56,16 +57,16 @@ export const Hero = () => {
     }
   }, []);
 
-  const scrollToProjects = () => {
-    const projectsSection = document.getElementById("projects");
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: "smooth" });
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
     <section
-      className="min-h-screen flex items-center justify-center px-8 md:px-16 py-24 relative"
+      className="min-h-screen flex items-center justify-center px-8 md:px-16 py-24 fixed inset-0 z-0"
       ref={heroRef}
     >
       <div className="max-w-3xl">
@@ -73,18 +74,24 @@ export const Hero = () => {
           Fauzan Abdillah
         </h1>
         <p className="hero-title text-xl md:text-2xl lg:text-3xl font-normal text-secondary mb-8 opacity-0">
-          Software Engineer
+          Fullstack Developer
         </p>
-        <p className="hero-description text-base md:text-lg leading-relaxed text-secondary mb-12 max-w-2xl opacity-0">
-          I am a software engineer who enjoys building reliable,
-          high-performance systems from the ground up. My experience spans
-          backend architecture, frontend development, and system design, with a
-          strong focus on maintainability and real-world impact. I have led
-          end-to-end development and major rewrites of production systems,
-          turning early-stage solutions into scalable platforms. I care deeply
-          about code quality, performance, and user experience, and I enjoy
-          solving complex problems that grow with real business needs.
-        </p>
+
+        {/* Navigation Buttons */}
+        <div className="flex gap-4 mb-12">
+          <button
+            onClick={() => scrollToSection("projects")}
+            className="nav-button px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg opacity-0 cursor-pointer"
+          >
+            Projects
+          </button>
+          <button
+            onClick={() => scrollToSection("blog")}
+            className="nav-button px-6 py-3 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:bg-gray-100 dark:hover:bg-gray-800 opacity-0 cursor-pointer"
+          >
+            Blogs
+          </button>
+        </div>
 
         <div className="flex gap-8 flex-wrap">
           {personalInfo.github && (
@@ -123,7 +130,7 @@ export const Hero = () => {
 
       {/* Scroll Indicator */}
       <button
-        onClick={scrollToProjects}
+        onClick={() => scrollToSection("projects")}
         className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 cursor-pointer group"
         aria-label="Scroll to projects"
       >
