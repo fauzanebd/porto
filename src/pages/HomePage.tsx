@@ -37,9 +37,12 @@ export const HomePage = () => {
       <Hero />
       {/* Spacer to push content below the fixed hero */}
       <div className="min-h-screen" />
-      {/* Sections that scroll over the hero */}
-      <div className="relative z-10 bg-gray-50 dark:bg-gray-900">
+      {/* Projects section that becomes sticky and scrolls over hero */}
+      <div className="relative z-10">
         <Projects />
+      </div>
+      {/* Blog and Footer sections that scroll over sticky projects */}
+      <div className="relative z-20 bg-white dark:bg-black">
         <Blog />
         <Footer />
       </div>

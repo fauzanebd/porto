@@ -58,7 +58,7 @@ export const Projects = () => {
   return (
     <section
       id="projects"
-      className="px-8 md:px-16 py-24 bg-gray-50 dark:bg-gray-900"
+      className="sticky top-0 px-8 md:px-16 py-24 bg-gray-50 dark:bg-gray-900"
       ref={projectsRef}
     >
       <div className="max-w-6xl mx-auto">
