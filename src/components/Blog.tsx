@@ -53,18 +53,19 @@ export const Blog = () => {
   return (
     <section
       id="blog"
-      className="px-8 md:px-16 py-24 bg-gray-50 dark:bg-gray-900"
+      className="px-8 md:px-16 py-2 bg-gray-50 dark:bg-gray-900"
       ref={blogRef}
     >
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-semibold mb-16 tracking-tight">
-          Blog
+          Blogs
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {blogPosts.map((post) => (
-            <article
+            <Link
+              to={`/blog/${post.slug}`}
               key={post.id}
-              className="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden opacity-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-gray-900/50"
+              className="blog-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden opacity-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-gray-900/50 block"
             >
               {post.image && (
                 <div className="aspect-video overflow-hidden">
@@ -95,14 +96,11 @@ export const Blog = () => {
                     </span>
                   ))}
                 </div>
-                <Link
-                  to={`/blog/${post.slug}`}
-                  className="text-gray-900 dark:text-gray-100 text-sm font-medium inline-flex items-center transition-transform duration-300 hover:translate-x-1"
-                >
+                <span className="text-gray-900 dark:text-gray-100 text-sm font-medium inline-flex items-center transition-transform duration-300 hover:translate-x-1">
                   Read more →
-                </Link>
+                </span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>

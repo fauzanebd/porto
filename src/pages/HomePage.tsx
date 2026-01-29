@@ -10,7 +10,7 @@ export const HomePage = () => {
   useEffect(() => {
     // Initialize Lenis smooth scroll
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
@@ -41,7 +41,6 @@ export const HomePage = () => {
       <div className="relative z-10">
         <Projects />
       </div>
-      {/* Blog and Footer sections that scroll over sticky projects */}
       <div className="relative z-20 bg-white dark:bg-black">
         <Blog />
         <Footer />

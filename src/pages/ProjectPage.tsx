@@ -1,4 +1,5 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import React from "react";
 import { projects } from "../data/portfolio";
 import ReactMarkdown from "react-markdown";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -6,6 +7,7 @@ import { Navigation, Pagination } from "swiper/modules";
 
 export const ProjectPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const project = projects.find((p) => p.id === id);
 
   if (!project) {
@@ -13,12 +15,12 @@ export const ProjectPage = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Project Not Found</h1>
-          <Link
-            to="/"
+          <button
+            onClick={() => navigate(-1)}
             className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
           >
-            ← Back to Home
-          </Link>
+            ← Back
+          </button>
         </div>
       </div>
     );
@@ -28,8 +30,8 @@ export const ProjectPage = () => {
     <main className="min-h-screen bg-white dark:bg-gray-950">
       {/* Back Button */}
       <div className="fixed top-6 left-6 z-50">
-        <Link
-          to="/"
+        <button
+          onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-lg shadow-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         >
           <svg
@@ -46,7 +48,7 @@ export const ProjectPage = () => {
             />
           </svg>
           <span>Back</span>
-        </Link>
+        </button>
       </div>
 
       {/* Hero Section */}
@@ -92,6 +94,15 @@ export const ProjectPage = () => {
         </div>
       </section>
 
+      {/* Gallery Section - Full width */}
+      {project.screenshots && project.screenshots.length > 0 && (
+        <section className="pb-24 px-4 md:px-8">
+          <div className="max-w-[1600px] mx-auto">
+            <ProjectGallery project={project} />
+          </div>
+        </section>
+      )}
+
       {/* Markdown Content */}
       {project.markdown && (
         <section className="pb-24 px-8 md:px-16 lg:px-32 xl:px-48">
@@ -134,17 +145,6 @@ const PublicProjectContent = ({
             />
           </svg>
         </a>
-      )}
-
-      {project.link && (
-        <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white shadow-lg">
-          <iframe
-            src={project.link}
-            title={`${project.title} preview`}
-            className="w-full h-full"
-            sandbox="allow-scripts allow-same-origin"
-          />
-        </div>
       )}
     </div>
   );
@@ -192,42 +192,13 @@ const MobileProjectContent = ({
           </a>
         )}
       </div>
-
-      {project.screenshots && project.screenshots.length > 0 && (
-        <div className="screenshot-gallery">
-          <Swiper
-            modules={[Navigation, Pagination]}
-            navigation
-            pagination={{ clickable: true }}
-            spaceBetween={16}
-            slidesPerView={1}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-            }}
-            className="!pb-12"
-          >
-            {project.screenshots.map((screenshot, index) => (
-              <SwiperSlide key={index}>
-                <div className="aspect-[9/16] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img
-                    src={screenshot}
-                    alt={`${project.title} screenshot ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      )}
     </div>
   );
 };
 
 // Private project layout
 const PrivateProjectContent = ({
-  project,
+  project: _project,
 }: {
   project: (typeof projects)[0];
 }) => {
@@ -247,36 +218,159 @@ const PrivateProjectContent = ({
             d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
           />
         </svg>
-        <span>Private/Internal Project</span>
+        <span>Enterprise / Internal Systems</span>
       </div>
+    </div>
+  );
+};
 
-      {project.screenshots && project.screenshots.length > 0 && (
-        <div className="screenshot-gallery">
+const ProjectGallery = ({ project }: { project: (typeof projects)[0] }) => {
+  const [prevEl, setPrevEl] = React.useState<HTMLButtonElement | null>(null);
+  const [nextEl, setNextEl] = React.useState<HTMLButtonElement | null>(null);
+
+  const [lightboxImage, setLightboxImage] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setLightboxImage(null);
+      }
+    };
+
+    if (lightboxImage) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [lightboxImage]);
+
+  if (!project.screenshots || project.screenshots.length === 0) return null;
+
+  const isMobileApp = project.type === "mobile";
+
+  return (
+    <>
+      <div className="screenshot-gallery relative group">
+        <div className="w-full">
           <Swiper
+            autoHeight={true}
             modules={[Navigation, Pagination]}
-            navigation
-            pagination={{ clickable: true }}
-            spaceBetween={16}
-            slidesPerView={1}
-            breakpoints={{
-              768: { slidesPerView: 2 },
+            navigation={{
+              prevEl,
+              nextEl,
             }}
-            className="!pb-12"
+            pagination={{
+              clickable: true,
+              el: ".custom-swiper-pagination",
+            }}
+            spaceBetween={24}
+            slidesPerView={1.2}
+            centeredSlides={true}
+            loop={true}
+            breakpoints={{
+              640: { slidesPerView: isMobileApp ? 2.5 : 1.2 },
+              1024: { slidesPerView: isMobileApp ? 3.5 : 1.5 },
+              1400: { slidesPerView: isMobileApp ? 4.5 : 1.8 },
+            }}
+            className="h-full !pb-12"
           >
             {project.screenshots.map((screenshot, index) => (
-              <SwiperSlide key={index}>
-                <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
+              <SwiperSlide
+                key={index}
+                className="flex items-center justify-center"
+              >
+                <div
+                  className={`rounded-xl overflow-hidden h-full w-auto shadow-lg cursor-zoom-in transition-transform duration-300 hover:scale-[1.02]`}
+                  onClick={() => setLightboxImage(screenshot)}
+                >
                   <img
                     src={screenshot}
                     alt={`${project.title} screenshot ${index + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-auto h-auto max-w-full max-h-[60vh] md:max-h-[70vh] object-contain mx-auto"
                   />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
+
+        {/* Custom Navigation Buttons */}
+        <button
+          ref={(node) => setPrevEl(node)}
+          className="absolute top-1/2 -translate-y-1/2 left-4 md:left-8 z-10 w-12 h-12 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-full shadow-lg text-gray-900 dark:text-white transition-all hover:scale-110 hover:bg-white dark:hover:bg-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Previous slide"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+        <button
+          ref={(node) => setNextEl(node)}
+          className="absolute top-1/2 -translate-y-1/2 right-4 md:right-8 z-10 w-12 h-12 flex items-center justify-center bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-full shadow-lg text-gray-900 dark:text-white transition-all hover:scale-110 hover:bg-white dark:hover:bg-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Next slide"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+
+        <div className="custom-swiper-pagination flex justify-center gap-2 absolute bottom-0 left-0 right-0 z-10" />
+      </div>
+
+      {/* Lightbox / Fullscreen Image */}
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-200"
+          onClick={() => setLightboxImage(null)}
+        >
+          <button
+            onClick={() => setLightboxImage(null)}
+            className="absolute top-4 right-4 md:top-8 md:right-8 text-white/70 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+          >
+            <svg
+              className="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <img
+            src={lightboxImage}
+            alt="Fullscreen view"
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
       )}
-    </div>
+    </>
   );
 };

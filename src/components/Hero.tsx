@@ -14,14 +14,14 @@ export const Hero = () => {
         .add(heroRef.current.querySelector(".hero-name") as Element, {
           translateY: [40, 0],
           opacity: [0, 1],
-          duration: 1000,
+          duration: 800,
         })
         .add(
           heroRef.current.querySelector(".hero-title") as Element,
           {
             translateY: [40, 0],
             opacity: [0, 1],
-            duration: 800,
+            duration: 600,
           },
           "-=600",
         )
@@ -29,9 +29,9 @@ export const Hero = () => {
           heroRef.current.querySelectorAll(".nav-button"),
           {
             translateY: [20, 0],
-            opacity: [0, 1],
+            opacity: [1, 1],
             delay: stagger(100),
-            duration: 600,
+            duration: 300,
           },
           "-=400",
         )
@@ -41,7 +41,7 @@ export const Hero = () => {
             translateY: [20, 0],
             opacity: [0, 1],
             delay: stagger(100),
-            duration: 600,
+            duration: 300,
           },
           "-=400",
         )
@@ -50,7 +50,7 @@ export const Hero = () => {
           {
             translateY: [20, 0],
             opacity: [0, 1],
-            duration: 600,
+            duration: 200,
           },
           "-=200",
         );
@@ -129,7 +129,7 @@ export const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <button
+      {/* <button
         onClick={() => scrollToSection("projects")}
         className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 cursor-pointer group"
         aria-label="Scroll to projects"
@@ -150,7 +150,7 @@ export const Hero = () => {
             <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
           </svg>
         </div>
-      </button>
+      </button> */}
     </section>
   );
 };

@@ -47,9 +47,11 @@ export const Projects = () => {
       case "public":
         return null;
       case "mobile":
-        return "Mobile App";
+        // return "Mobile App";
+        return null;
       case "private":
-        return "Internal/Private";
+        // return "Enterprise / Internal Systems";
+        return null;
       default:
         return null;
     }
@@ -67,7 +69,8 @@ export const Projects = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {projects.map((project) => (
-            <div
+            <Link
+              to={`/project/${project.id}`}
               key={project.id}
               className="project-card flex flex-col opacity-0 transition-transform duration-300 hover:-translate-y-1"
             >
@@ -104,14 +107,11 @@ export const Projects = () => {
                     </span>
                   ))}
                 </div>
-                <Link
-                  to={`/project/${project.id}`}
-                  className="text-gray-900 dark:text-gray-100 text-sm font-medium inline-flex items-center transition-transform duration-300 hover:translate-x-1"
-                >
+                <span className="text-gray-900 dark:text-gray-100 text-sm font-medium inline-flex items-center transition-transform duration-300 hover:translate-x-1">
                   Read More →
-                </Link>
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

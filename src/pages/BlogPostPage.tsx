@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { blogPosts } from "../data/portfolio";
 import ReactMarkdown from "react-markdown";
 
@@ -6,17 +6,19 @@ export const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = blogPosts.find((p) => p.slug === slug);
 
+  const navigate = useNavigate();
+
   if (!post) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-          <Link
-            to="/"
+          <button
+            onClick={() => navigate(-1)}
             className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
           >
-            ← Back to Home
-          </Link>
+            ← Back
+          </button>
         </div>
       </div>
     );
@@ -35,8 +37,8 @@ export const BlogPostPage = () => {
     <main className="min-h-screen bg-white dark:bg-gray-950">
       {/* Back Button */}
       <div className="fixed top-6 left-6 z-50">
-        <Link
-          to="/"
+        <button
+          onClick={() => navigate(-1)}
           className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-lg shadow-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         >
           <svg
@@ -53,7 +55,7 @@ export const BlogPostPage = () => {
             />
           </svg>
           <span>Back</span>
-        </Link>
+        </button>
       </div>
 
       {/* Header Image */}

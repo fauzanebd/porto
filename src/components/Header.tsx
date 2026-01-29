@@ -37,7 +37,7 @@ export const Header = () => {
           onClick={() => scrollToSection("blog")}
           className="nav-link bg-transparent border-none text-gray-900 dark:text-gray-100 text-sm font-normal cursor-pointer py-2 relative transition-colors duration-300 group"
         >
-          Blog
+          Blogs
           <span className="absolute bottom-0 left-0 w-0 h-px bg-gray-900 dark:bg-gray-100 transition-all duration-300 group-hover:w-full"></span>
         </button>
       </nav>

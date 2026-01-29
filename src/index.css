@@ -126,16 +126,6 @@
   }
 
   /* Swiper Custom Styles */
-  .screenshot-gallery .swiper-button-prev,
-  .screenshot-gallery .swiper-button-next {
-    @apply text-gray-900 dark:text-white;
-    --swiper-navigation-size: 24px;
-  }
-
-  .screenshot-gallery .swiper-button-prev::after,
-  .screenshot-gallery .swiper-button-next::after {
-    @apply text-lg font-bold;
-  }
 
   .screenshot-gallery .swiper-pagination-bullet {
     @apply bg-gray-400 dark:bg-gray-600;
