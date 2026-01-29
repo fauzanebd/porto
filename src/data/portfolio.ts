@@ -37,8 +37,8 @@ export interface BlogPost {
 // =============================================================================
 export const personalInfo = {
   name: "Fauzan Abdillah",
-  title: "Fullstack Developer",
-  description: "Fullstack Developer",
+  title: "Software Engineer",
+  description: "Software Engineer",
   email: "fauzanebd@gmail.com",
   github: "https://github.com/fauzanebd",
   linkedin: "https://linkedin.com/in/fauzanabdillah",
@@ -345,7 +345,7 @@ I worked as a **Frontend / Web Developer**, focusing on content presentation and
       "https://content.fauzanebd.web.id/images/terumoelearn/Screenshot%202026-01-29%20at%2013.00.55.webp",
     type: "private",
     tags: ["React", "TypeScript", "Node.js"],
-    role: "Fullstack Developer",
+    role: "Frontend Developer",
     screenshots: [
       "https://content.fauzanebd.web.id/images/terumoelearn/Screenshot%202026-01-29%20at%2013.00.55.webp",
       "https://content.fauzanebd.web.id/images/terumoelearn/Screenshot%202026-01-29%20at%2013.01.12.webp",

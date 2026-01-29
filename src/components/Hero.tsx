@@ -74,7 +74,7 @@ export const Hero = () => {
           Fauzan Abdillah
         </h1>
         <p className="hero-title text-xl md:text-2xl lg:text-3xl font-normal text-secondary mb-8 opacity-0">
-          Fullstack Developer
+          Software Engineer
         </p>
 
         {/* Navigation Buttons */}
