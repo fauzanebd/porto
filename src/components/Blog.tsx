@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { blogPosts } from "../data/portfolio";
+// import { blogPosts } from "../data/portfolio";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,14 +41,14 @@ export const Blog = () => {
     };
   }, []);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
+  // const formatDate = (dateString: string) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString("en-US", {
+  //     year: "numeric",
+  //     month: "long",
+  //     day: "numeric",
+  //   });
+  // };
 
   return (
     <section
@@ -61,7 +61,8 @@ export const Blog = () => {
           Blogs
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {blogPosts.map((post) => (
+          <p className="text-secondary col-span-full">No blog posts yet.</p>
+          {/* {blogPosts.map((post) => (
             <Link
               to={`/blog/${post.slug}`}
               key={post.id}
@@ -101,7 +102,7 @@ export const Blog = () => {
                 </span>
               </div>
             </Link>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>
